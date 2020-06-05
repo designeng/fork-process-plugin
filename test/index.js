@@ -14,7 +14,7 @@ const spec = {
 
     deferredFork: {
         createDeferredFork: {
-            path: __dirname + '/assets/sayHi.js'
+            path: __dirname + '/assets/sendHi.js'
         }
     },
 
@@ -25,6 +25,21 @@ const spec = {
             },
             args: [
                 {$ref: 'deferredFork'}
+            ]
+        }
+    },
+
+    childProcessMessage: {
+        create: {
+            module: function(childProcess) {
+                return new Promise((resolve, reject) => {
+                    childProcess.on('message', (message) => {
+                        resolve(message);
+                    });
+                })
+            },
+            args: [
+                {$ref: 'forkedProcess'}
             ]
         }
     }
@@ -39,8 +54,12 @@ before(async () => {
 });
 
 describe('forkedProcess', () => {
-    it('should be created', () => {
-        expect(context.forkedProcess.pid).to.be.an.integer();
+    it('should be created', async () => {
+        await expect(context.forkedProcess.pid).to.be.an.integer();
+    });
+
+    it('should recieve child process message', async () => {
+        await expect(context.childProcessMessage).to.equal('Hi');
     });
 });
 
