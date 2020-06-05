@@ -20,8 +20,8 @@ const spec = {
 
     forkedProcess: {
         create: {
-            module: function(target) {
-                return target();
+            module: function(run) {
+                return run();
             },
             args: [
                 {$ref: 'deferredFork'}

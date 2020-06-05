@@ -15,19 +15,19 @@ const spec = {
         forkProcessPlugin
     ],
 
-    forkedProcess: {
+    deferredFork: {
         createDeferredFork: {
             path: __dirname + '/../forks/one/index.js'
         }
     },
 
-    forkedProcessRunner: {
+    forkedProcess: {
         create: {
-            module: function(forkedProcess) {
-                return forkedProcess();
+            module: function(run) {
+                return run();
             },
             args: [
-                {$ref: 'forkedProcess'}
+                {$ref: 'deferredFork'}
             ]
         }
     }
