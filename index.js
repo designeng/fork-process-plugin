@@ -16,7 +16,7 @@ function isNil(value) {
     return value == null;
 }
 
-export default function forkProcessPlugin(options) {
+module.exports = function forkProcessPlugin(options) {
     const openedProcesses = [];
 
     const closeOpenedProcesses = () => {
